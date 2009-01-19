@@ -49,14 +49,12 @@ module Warehouse
     def setup!(&block)
       return if setup?
       self.setup = true
-      domain = Warehouse.domain.blank? ? 'my-domain.com' : Warehouse.domain
-      Warehouse.default_access_path = "http://#{domain}/"
 
       class_eval(&block) if block
       setup_mail!
       setup_caching!
       if Object.const_defined?(:USE_REPO_PATHS) && USE_REPO_PATHS
-        puts "** Using paths for repositories, instead of subdomains.  http://#{domain}/my-repo/browser, etc."
+        puts "** Using paths for repositories, instead of subdomains.  http://#{Warehouse.domain || 'my-domain.com'}/my-repo/browser, etc."
       end
     end
     
