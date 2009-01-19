@@ -47,7 +47,8 @@ class Repository < ActiveRecord::Base
   def create_repository
     return if File.exist? path.chomp('/')
     return if Warehouse.svn_create_command.blank?
-    `#{Warehouse.svn_create_command.gsub(/%1/, path.chomp('/'))}`
+    c = Warehouse.svn_create_command.gsub(/%1/, path.chomp('/'))
+    `#{c}`
   end
 
   def member?(user, path = nil)

@@ -1,6 +1,6 @@
-  <div class="sideblock">
-    <h3>Active Members</h3>
-    <ul id="members">
-        <%= render :partial => 'member', :collection => current_repository.members.sort_by { |m| m.last_changed_at || Time.utc(1970, 1, 1) }.reverse %>
-    </ul>
-  </div>
+<div class="sideblock">
+  <h3>Active Members</h3>
+  <ul id="members">
+      <%= render :partial => 'member', :collection => current_repository.members.sort_by { |m| m.last_changed_at || Time.utc(1970, 1, 1) }.reverse %>
+  </ul>
+</div>

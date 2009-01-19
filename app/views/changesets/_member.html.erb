@@ -1,5 +1,5 @@
-      <li>
-        <%= avatar_for(member) %>
-        <span class="author"><%= member.name %></span>
-        <%= activity if member.last_changed_at -%>
-      </li>
+<li>
+  <%= avatar_for(@member) %>
+  <span class="author"><%= @member.name %></span>
+  <%= activity if @member.last_changed_at -%>
+</li>
