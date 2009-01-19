@@ -10,34 +10,45 @@
 class Repository < ActiveRecord::Base
   include PermissionMethods, CommandSanitizer
   has_permalink :name, :subdomain
-  validates_presence_of :name, :path, :subdomain
-  validates_inclusion_of :scm_type, :in => %w(svn git)
-  attr_accessible :name, :path, :subdomain, :public, :full_url
+
+  validates_presence_of   :name, :path, :subdomain
+  validates_inclusion_of  :scm_type, :in => %w(svn git)
+  attr_accessible         :name, :path, :subdomain, :public, :full_url
   
   has_many :permissions, :conditions => ['active = ?', true] do
     def set(user_id, options = {})
       Permission.set(proxy_owner, user_id, options)
     end
   end
-  has_many :members, :through => :permissions, :source => :user, :select => "users.*, #{Permission.join_fields}", :uniq => true
-  has_many :all_permissions, :class_name => 'Permission', :foreign_key => 'repository_id', :dependent => :delete_all
-  has_many :changesets, :order => 'changesets.changed_at desc'
-  has_many :changes, :through => :changesets, :order => 'changesets.changed_at desc'
-  has_many :bookmarks, :dependent => :destroy
-  has_many :hooks, :dependent => :destroy
+
+  has_many :members,          :through => :permissions, :source => :user, :select => "users.*, #{Permission.join_fields}", :uniq => true
+  has_many :all_permissions,  :class_name => 'Permission', :foreign_key => 'repository_id', :dependent => :delete_all
+  has_many :changesets,       :order => 'changesets.changed_at desc'
+  has_many :changes,          :through => :changesets, :order => 'changesets.changed_at desc'
+  has_many :bookmarks,        :dependent => :destroy
+  has_many :hooks,            :dependent => :destroy
+
   has_one  :latest_changeset, :class_name => 'Changeset', :foreign_key => 'repository_id', :order => 'changed_at desc'
+
+  before_create  :create_repository
   before_destroy :clear_changesets
   expiring_attr_reader :silo, :retrieve_silo
 
   def path=(value)
+    value = "#{Warehouse.default_repository_path}#{name}" if value.empty?
     write_attribute :path, value.to_s.chomp('/')
   end
   
   def full_url=(value)
-    value << "/" unless value.last == "/" unless value.blank?
-    write_attribute :full_url, value
+    value = "#{Warehouse.default_access_path}#{name}" if value.empty?
+    write_attribute :full_url, value.to_s.chomp('/')
   end
-  
+
+  def create_repository
+    return if File.exist? path.chomp('/')
+    `#{Warehouse.svn_create_command.gsub(/%1/, path.chomp('/'))}`
+  end
+
   def member?(user, path = nil)
     return true if public? || (user.is_a?(User) && user.admin?)
     conditions = [[]]
@@ -86,6 +97,10 @@ class Repository < ActiveRecord::Base
     # calling silo extends it, but we need to call
     # the module's unbound method
     scm_type_mixin.instance_method(:revisions_to_sync).bind(self).call
+  end
+
+  def sync_in_progress?
+    sync? && !([0, 100].include? sync_progress)
   end
   
   def sync_progress

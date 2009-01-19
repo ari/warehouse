@@ -12,7 +12,7 @@ class Changeset < ActiveRecord::Base
   end
 
   def self.paginate(options = {})
-    options = {:count => 'distinct changesets.id'}.update(options)
+    options = {:per_page => 15, :count => 'distinct changesets.id'}.update(options)
     super
   end
 

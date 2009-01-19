@@ -1,6 +1,10 @@
 # Parts were adapted from Retrospectiva
 # http://retrospectiva.org/browse/trunk/app/helpers/changesets_helper.rb?rev=141
 module ChangesetsHelper
+  def activity
+    content_tag :span, "Last commit #{jstime member.last_changed_at}", :class => 'activity'
+  end
+
   def link_to_diff(text, revision, path, options = {})
     link_to text, hosted_url(:diff, "r#{revision}", path.split("/")), options
   end

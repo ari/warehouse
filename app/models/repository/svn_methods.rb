@@ -6,6 +6,7 @@ module Repository::SvnMethods
   end
 
   def sync_progress
+    return 0 if synced_revision.blank?
     ((synced_revision.to_f / latest_revision.to_f) * 100).floor
   end
 end
