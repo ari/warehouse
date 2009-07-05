@@ -27,7 +27,7 @@
       The changeset(s)
       <%= repo.revisions_to_sync.first %><%= "-#{repo.revisions_to_sync.last}" if repo.revisions_to_sync.first != repo.revisions_to_sync.last %>
       need to be synced.
-      <img id="indicator-<%= repo.id %>" src="/images/app/progress.gif" style="display:none" />
+      <img id="indicator-<%= repo.id %>" src="<%= image_path('app/progress.gif') %>" style="display:none" />
       <% v = "importer#{repo.id}" %>
       <% content_for :javascript do %>
         var <%= v %> = new Importer(<%= repo.id %>, {

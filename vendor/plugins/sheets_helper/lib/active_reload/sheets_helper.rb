@@ -1,6 +1,8 @@
 module ActiveReload
   class SheetFormBuilder < ActionView::Helpers::FormBuilder
-    @@image_path = "/images/app/btns"
+    #The following line is a bad URL, but getting the root url here is difficult,
+    # and this doesn't seem to be used anywhere.
+    #@@image_path =  "/images/app/btns"
     @@default_images = { :submit => 'save.png', :cancel => 'cancel.png' }
     cattr_accessor :image_path
     cattr_reader   :default_images
@@ -69,11 +71,11 @@ module ActiveReload
 
     protected
       def submit_image(img, options = {})
-        @template.tag('input', { :type => 'image', :class => 'submit', :src => "/images/app/btns/#{img}" }.merge(options))
+        @template.tag('input', { :type => 'image', :class => 'submit', :src => @template.image_path("app/btns/#{img}")}.merge(options))
       end
       
       def cancel_image(img, options = {})
-        @template.image_tag("/images/app/btns/#{img}", {:class => 'cancelbtn'}.merge(options))
+        @template.image_tag("app/btns/#{img}", {:class => 'cancelbtn'}.merge(options))
       end
   end
 

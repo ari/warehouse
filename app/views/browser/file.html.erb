@@ -84,7 +84,7 @@
   </thead>
   <tbody>
     <tr>
-      <td id="imagefile"><%= image_tag hosted_url(:raw, :paths => @node.paths) %></td>
+      <td id="imagefile"><img src="<%=hosted_url(:raw, :paths => @node.paths) %>" /></td>
     </tr>
   </tbody>
 </table>

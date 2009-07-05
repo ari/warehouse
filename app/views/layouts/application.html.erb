@@ -13,6 +13,12 @@
     
     <%= yield :scripts %>
     <script type="text/javascript" charset="utf-8">
+var Warehouse = {
+   //Allow javascript functions to reach correctly routed URLs --mike
+   //Note we want to get rid of the trailing slash
+   root: '<%=root_url.chop %>'
+}
+
       Event.onReady(function() {
         <%= cache_current_sheets %>
         <% if logged_in? -%>
@@ -121,7 +127,7 @@
           <div id="search" class="sideblock">
             <% form_tag current_repository ? hosted_url(:changesets) : root_changesets_path, :method => :get do -%>
                 <%= text_field_tag :q, params[:q], :size => 13, :id => 'search-box' %>
-                <input type="image" src="/images/app/btns/search.png" alt="Search" id="search-btn" />
+                <input type="image" src=<%= image_path("app/btns/search.png") %> alt="Search" id="search-btn" />
             <% end -%>
           </div>
           <%= link_to 'Subscribe to History', hosted_url(:history, :paths => (params[:paths] << 'changesets.atom')), :id => 'subscribe-history' if controller.controller_name == 'history' %>
