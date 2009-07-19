@@ -116,7 +116,7 @@ var Warehouse = {
           
           <% if full_svn_url? -%>
           <div id="svn-url">
-            <p>Check out the code: <code>svn co <%= full_svn_url %></code></p>
+            <p>Check out the code: <code>svn co <%= link_to full_svn_url, full_svn_url %></code></p>
           </div>
           <% end -%>
         </div>

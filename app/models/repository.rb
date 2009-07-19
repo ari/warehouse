@@ -33,7 +33,7 @@ class Repository < ActiveRecord::Base
   end
   
   def full_url=(value)
-    value << "/" unless value.last == "/" unless value.blank?
+    value << "/" unless value[-1,1] == "/" unless value.blank?
     write_attribute :full_url, value
   end
   
