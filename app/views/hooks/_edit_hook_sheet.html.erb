@@ -1,0 +1,10 @@
+      <% remote_sheet_form_for :hook, hk.properties, :url => hosted_url(:hook, hk), :method => :put,
+             :trigger => "hooki-#{hk.id}", :html => {:id => "hooksheet-#{hk.id}", :style => 'display:none'} do |s| %>
+        <h2>Edit <%= hook.title %>: <%= hk.label %></h2>
+        <%= s.check_box  "Active:", "Sets whether this hook is active or not", :active %>
+        <%= s.text_field "Label:", :label %>
+        <% hook.properties.class.option_order.each do |option| -%>
+          <% name, *desc = option.split -%>
+          <%= s.text_field %(#{h name.titleize}:), name %>
+        <% end -%>
+      <% end -%>

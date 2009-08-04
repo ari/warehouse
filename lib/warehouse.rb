@@ -34,7 +34,7 @@ module Warehouse
   end
 
   class << self
-    attr_accessor :domain, :forum_url, :permission_command, :password_command, :mail_from, :version, 
+    attr_accessor :domain, :forum_url, :svn_create_command, :default_repository_path, :default_access_path, :permission_command, :password_command, :mail_from, :version, 
       :default_session_options, :smtp_settings, :sendmail_settings, :mail_type, :caching, :config_path, 
       :syncing, :authentication_scheme, :authentication_realm, :setup, :svnlook_path, :source_highlight_theme
     
@@ -49,6 +49,7 @@ module Warehouse
     def setup!(&block)
       return if setup?
       self.setup = true
+
       class_eval(&block) if block
       setup_mail!
       setup_caching!

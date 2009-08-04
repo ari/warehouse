@@ -1,0 +1,18 @@
+<div class="need-sync" id="sync-<%= repo.id %>">
+  <span id="percent-<%= repo.id %>" class="sync-percent"><%= repo.sync_progress %>%</span>
+  The changeset(s) <%= repo.revisions_to_sync.first %><%= "-#{repo.revisions_to_sync.last}" if repo.revisions_to_sync.first != repo.revisions_to_sync.last %>
+  need to be synced.
+  <img id="indicator-<%= repo.id %>" src="/images/app/progress.gif" style="display:none" />
+</div>
+
+<% content_for :javascript do %>
+  var <%= "importer#{repo.id}" %> = new Importer(<%= repo.id %>, {
+    onStep: function(progress) {
+      $("percent-<%= repo.id %>").update(progress + "%");
+    },
+
+    onImported: function() {
+      $('sync-<%= repo.id %>').update('Finished importing!  You\'re ready to roll.');
+    }
+  });
+<% end -%>

@@ -1,0 +1,15 @@
+  <div class="sideblock">
+    <h3><%= 'Public ' if controller.action_name == 'public' %>Repository Activity</h3>
+    <ul id="repo-list" class="slist">
+      <% if @repositories.uniq.sort_by(&:name).each do |repo| -%>
+      <li><%= link_to h(repo.name), hosted_url(repo, :changesets) %></li>
+      <% end.empty? -%>
+      <li><a>No Repositories.</a></li>
+      <% end -%>
+      <% if controller.action_name == 'public' -%>
+      <li id="all-history"><%= link_to 'Repository activity &raquo;', root_changesets_path %></li>
+      <% elsif logged_in? -%>
+      <li id="all-history"><%= link_to 'All public activity &raquo;', root_public_changesets_path %></li>
+      <% end -%>
+    </ul>
+  </div>
