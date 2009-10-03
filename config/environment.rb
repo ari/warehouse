@@ -55,4 +55,8 @@ Rails::Initializer.run do |config|
   
   # Application configuration should go into files in config/initializers
   # -- all .rb files in that directory is automatically loaded
+  
+  config.gem 'ruby-openid'
+  config.gem 'textpow'
+  config.gem 'highline'
 end
