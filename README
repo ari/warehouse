@@ -1,7 +1,16 @@
-# quickie install directions
-cp config/database.sample.yml config/database.yml
-mkdir log 
-rake tmp:create
-rake db:schema:load
+OSX
+
+Install macports:
+  sudo port install oniguruma5 swig
+
+
+  cp config/database.sample.yml config/database.yml
+
+Then edit that file to suit your database.
+
+  rake gems:install
+  mkdir log 
+  rake tmp:create
+  RAILS_ENV=production rake db:schema:load
 
 start server, surf to /install
