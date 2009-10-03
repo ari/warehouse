@@ -56,11 +56,11 @@ Rails::Initializer.run do |config|
   # Application configuration should go into files in config/initializers
   # -- all .rb files in that directory is automatically loaded
   
-  config.gem 'ruby-openid'
+  config.gem 'ruby-openid', :lib => 'openid'
   config.gem 'textpow'
   config.gem 'highline'
   config.gem 'mailfactory'
   config.gem 'metaid'
   config.gem 'sequel'
-  config.gem 'ruby-yadis'
+  config.gem 'ruby-yadis', :lib => "yadis"
 end
