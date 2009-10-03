@@ -59,4 +59,8 @@ Rails::Initializer.run do |config|
   config.gem 'ruby-openid'
   config.gem 'textpow'
   config.gem 'highline'
+  config.gem 'mailfactory'
+  config.gem 'metaid'
+  config.gem 'sequel'
+  config.gem 'ruby-yadis'
 end
