@@ -48,7 +48,7 @@ rescue LoadError
 end
 
 require 'open3'
-require 'application'
+#require 'application'
 require 'warehouse'
 require 'warehouse/plugins'
 require 'warehouse/hooks'
@@ -73,6 +73,7 @@ if RAILS_ENV == 'development'
   ENV["RAILS_ASSET_ID"] = ''
 end
 
+USE_REPO_PATHS = false
 if USE_REPO_PATHS
   class ActionController::Routing::RouteSet
     def recognize_path_with_repo(path, environment = {})
